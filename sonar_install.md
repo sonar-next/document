@@ -54,3 +54,19 @@ mvn 版本无需额外下载，执行 mvn sonar:sonar 即可运行，运行前�
 ### gradle
 
 gradle 也无需提前下载 scanner，需要设置插件，详细配置见后续文章。
+
+
+
+## 推荐配置
+
+SonarQube所在的服务器与使用的数据库处于同一内网下。
+
+推荐使用配置
+
+64G内存及以上
+
+16核及以上CPU
+
+SSD固态硬盘或高性能机械硬盘部署
+
+执行sonar-scanner的机器，请配置计算型CPU配置，sonar-scanner比较吃CPU，不吃内存，同时追求高性能的磁盘，最好上SSD，或者是高性能机械硬盘
