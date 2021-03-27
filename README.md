@@ -6,7 +6,7 @@
 
 [SonarQube 安装](sonar_install.md)
 
-
+[SonarQube 多分支功能使用（社区版）](sonar_branch.md)
 
 ## SonarQube 源码分析
 
