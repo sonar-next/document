@@ -14,7 +14,7 @@ author: mamian521#gmail.com
 
 ### 准备
 
-- 下载 [地址]([]()) ，并安装到 SonarQube 安装目录下的 `lib/commons` 目录 和 `extensions/plugins` 目录下。
+- 插件地址 https://github.com/mc1arke/sonarqube-community-branch-plugin/releases ，并安装到 SonarQube 安装目录下的 `lib/commons` 目录 和 `extensions/plugins` 目录下。注意，该插件版本必须和 SonarQube 版本兼容，例如，该插件的 1.3.2版本对应 SonarQube 7.9 版本。
 - 可以直接使用我打包好的 Docker 镜像，参考
 
 ### 使用
