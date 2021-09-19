@@ -16,4 +16,6 @@
 
 ## 联系我们
 
+添加时请注明联系缘由
+
 ![](https://static0.xesimg.com/external/Wechat.jpeg)
