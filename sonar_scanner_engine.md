@@ -6,6 +6,8 @@ title: Sonar-Scanner-Engine源码分析
 
 date: 2021-09-18 
 
+author: mamian521#gmail.com
+
 ---
 
 ## 介绍
@@ -509,7 +511,9 @@ private void addScannerComponents() {
 
 第二步，在 `addScannerComponents` 方法中，将上述所有的组件加载注入
 
-第三步，执行 `doAfterStart` 方法，在这个里边，才执行了扫描中各组件的 `execute` 方法。
+第三步，执行 `pico.start()` 方法，这里 pico 是我们之前提到的依赖注入的工具，上面这些类注入之后，部分的类继承自 `Startable` 接口，调用 `pico.start()` 之后，也就会触发这些组件的 `start()` 方法。
+
+第四步，执行 `doAfterStart` 方法，在这个里边，才执行了扫描中各组件的 `execute` 方法。
 
 我们重点看一下 doAfterStart 里的一些类。
 
@@ -1114,6 +1118,8 @@ void runCpdAnalysis(ExecutorService executorService, DefaultInputFile inputFile,
 
 能看出这里是用了一个线程的线程池，这里能否加大提升扫描速度？不知道这个是否是线程安全的。
 
+另外关于重复代码信息的真正实现，在另一个模块中，`sonar-duplication` ，我们下次再去看
+
 ### ReportPublisher
 
 从 scanner-report 目录中读取生成的 scanner 报告，然后进行压缩和上传。
@@ -1208,6 +1214,8 @@ private File generateReportFile() {
 上传报告
 
 可以看出，最后是把 zip 压缩包通过 HTTP Protobuf 的方式进行了上传，然后得到一个 任务 id，这里使用到的框架是 `OkHttpClient` 
+
+部分代码在 `sonar-scanner-protocol` 这个模块里
 
 ```java
 /**
@@ -1344,3 +1352,18 @@ private Ce.Task waitForCeTaskToFinish(String taskId) {
   throw MessageException.of("Quality Gate check timeout exceeded - View details on " + ceTaskReportDataHolder.getDashboardUrl());
 }
 ```
+
+
+
+总结一下，`Sonar-Scanner-Engine` 这个模块基本上是扫描真正执行的代码。
+
+- 里面用到了一个依赖注入的框架 `PicoContainer` ，
+- 有一些常见的设计模式的使用，例如模版设计模式，适配器设计模式
+- 通过源码，我们知道了 scanner 是通过 protobuf 和服务端进行通信的
+- 最后报告压缩为 zip 格式上传到服务端
+- 还发现了一个可以等待服务端扫描完毕的参数 `sonar.qualitygate.wait`
+- `BitSet` ，`FileChannel#tryLock()` 的一些用法等
+
+
+
+后续，我们可以再去看服务端`server` 模块，`sonar-core` 模块，`sonar-duplication` 模块，`sonar-plugin-api` 的设计和源码。
